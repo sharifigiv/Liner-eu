@@ -7,44 +7,32 @@ const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 720;
 
 int main(int argc, char* args[]){
-	SDL_Window* window = NULL;
-	
-	SDL_Surface* screenSurface = NULL;
-	
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-	{
-		cout << "SDL could not initialize! SDL_Error:\n" << SDL_GetError() << endl;
-	}
+    SDL_Event event;
+    SDL_Renderer *renderer;
+    SDL_Window *window;
 
-	else
-	{
-		window = SDL_CreateWindow( "Linear eu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-		if( window == NULL )
-		{
-			cout << "Window could not be created! SDL_Error: \n" << SDL_GetError() << endl;
-		}
-		else
-		{
-			screenSurface = SDL_GetWindowSurface( window );
+    int i;
 
-			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-			
-			SDL_UpdateWindowSurface( window );
-            
-            SDL_Event e; 
-			bool quit = false; 
+    SDL_Init(SDL_INIT_VIDEO);
 
-			while( quit == false ){
-				while( SDL_PollEvent( &e ) ){
-					if( e.type == SDL_QUIT ) quit = true; 
-				}
-			}
-		}
-	}
+    SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_WIDTH, 0, &window, &renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
 
-	SDL_DestroyWindow( window );
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    for (i = 0; i < SCREEN_WIDTH; ++i)
+        SDL_RenderDrawPoint(renderer, i, i);
 
-	SDL_Quit();
+    SDL_RenderPresent(renderer);
 
-	return 0;
+    while (1) {
+        if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
+            break;
+    }
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return EXIT_SUCCESS;
 }
