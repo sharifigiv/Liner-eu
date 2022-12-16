@@ -36,7 +36,6 @@ int main(int argc, char* args[]){
 
 			while( quit == false ){
 				while( SDL_PollEvent( &e ) ){
-					
 					if( e.type == SDL_QUIT ) quit = true; 
 				}
 			}
