@@ -4,6 +4,24 @@
 
 using namespace std;
 
+pair<Line, int> Lines[99]; 
+Line2 Lines2[99][2]; 
+
+int Line_i = 0;
+int Line2_i = 0;
+
+void newLine (int m, int b, int r, int g, int b1){
+    Line l = Line();
+    l.b = b; l.m = m;
+
+    Line_i++;
+
+    int color[3] = {r, g, b1};
+
+    Lines[Line_i].first = l;
+    Lines[Line_i].second = *color;
+}
+
 int main() {
     const int windowHeight = 720;
     const int windowWidth = 1080;
@@ -29,8 +47,8 @@ int main() {
     bool quit = false;
     SDL_Event event;
 
-    Line L1 = Line();
-    L1.m = 2; L1.b = 3;
+    newLine(2, 3, 200, 100, 2);
+    newLine(5, 300, 200, 100, 2);
 
     while (!quit) {
 
@@ -51,9 +69,14 @@ int main() {
             SDL_RenderDrawPoint(s, windowWidth / 2, y);
         }
 
-        for (int i = -windowWidth / 2; i <= windowWidth / 2; i++){
-            SDL_RenderDrawPoint(s, float((windowWidth / 2) + i) * zoomRatio , float((windowHeight / 2) - L1.get_y(float(i))) * zoomRatio);
+        
 
+        for (int i = 0; i <= sizeof(Lines) / sizeof(int); i++){
+            Line l = Lines[i].first;
+
+            for (int x = -windowWidth / 2; x <= windowWidth / 2; x++ ){
+                SDL_RenderDrawPoint(s,(windowWidth / 2 + x) * zoomRatio, (windowHeight / 2 - l.get_y(x)) * zoomRatio);
+            }
         }
 
         SDL_SetRenderDrawColor(s, 0x00, 0x00, 0x00, 0xFF);
@@ -64,3 +87,4 @@ int main() {
     SDL_DestroyRenderer(s);
     SDL_Quit();
 }
+
