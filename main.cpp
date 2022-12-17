@@ -47,8 +47,8 @@ int main() {
     bool quit = false;
     SDL_Event event;
 
-    newLine(2, 3, 200, 100, 2);
     newLine(5, 300, 200, 100, 2);
+    newLine(7, 100, 8, 9, 2);
 
     while (!quit) {
         while (SDL_PollEvent(&event)) {
@@ -68,11 +68,18 @@ int main() {
             SDL_RenderDrawPoint(s, windowWidth / 2, y);
         }        
 
-        for (int i = 0; i <= sizeof(Lines) / sizeof(int); i++){
+        int firstPoint[2] = {-windowWidth / 2, int(720 - Lines[0].first.get_y(-windowWidth / 2))};
+
+        for (int i = 0; i <= Line_i ; i++){
             Line l = Lines[i].first;
 
             for (int x = -windowWidth / 2; x <= windowWidth / 2; x++ ){
                 SDL_RenderDrawPoint(s,(windowWidth / 2 + x) * zoomRatio, (windowHeight / 2 - l.get_y(x)) * zoomRatio);
+
+                SDL_RenderDrawLine(s, firstPoint[0], firstPoint[1], int(windowWidth / 2 + x), int(windowHeight / 2 - l.get_y(x)));
+                
+                firstPoint[0] = (windowWidth / 2 + x);
+                firstPoint[1] = int(windowHeight / 2 - l.get_y(x));
             }
         }
 
