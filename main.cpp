@@ -51,7 +51,6 @@ int main() {
     newLine(5, 300, 200, 100, 2);
 
     while (!quit) {
-
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 quit = true;
@@ -67,9 +66,7 @@ int main() {
 
         for (int y = 0; y <= windowHeight; y++){
             SDL_RenderDrawPoint(s, windowWidth / 2, y);
-        }
-
-        
+        }        
 
         for (int i = 0; i <= sizeof(Lines) / sizeof(int); i++){
             Line l = Lines[i].first;
@@ -87,4 +84,3 @@ int main() {
     SDL_DestroyRenderer(s);
     SDL_Quit();
 }
-
